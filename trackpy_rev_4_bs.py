@@ -30,9 +30,9 @@ def func(x, a, b, c):
 # def func3(x, a, c):
 #     return a*x**alpha + c
 
-fps = 50
+fps = 45.5
 pixel_per_micron = 10.72
-file_dir = '/Volumes/AndersonLab/Hausen W/Data/2022_07_08_1um_nyo_beads_14dex/for tracking/dex_22_MMStack_Pos0.ome.tif'
+file_dir = '/Volumes/AndersonLab/Hausen W/Data/2022_06_29_1um_nyo_beads_water/lipid/40x/for tracking/water_1_MMStack_Pos0.ome.tif'
 work_dir = '/'.join(file_dir.split('/')[:-1]) + '/'
 print(work_dir)
 frames = pims.open(file_dir)
@@ -115,7 +115,7 @@ tp.mass_size(t1.groupby('particle').mean()); # convenience function -- just plot
 
 
 t2 = t1[((t1['size'] < 20) &
-         (t1['ecc'] < .6))]
+         (t1['ecc'] < .3))]
 
 
 
@@ -169,7 +169,7 @@ for i in range(39):
 
 
     lim1 = 5
-    lim2 = 60
+    lim2 = 65
 
 
 
