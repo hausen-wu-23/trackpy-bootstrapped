@@ -21,18 +21,20 @@ import trackpy as tp
 
 from PIL import Image
 
+alpha = 1
+
 def func(x, a, b, c):
     return a*x**b + c
 
 # def func2(x, a, b):
 #     return a*x**b 
 
-# def func3(x, a, c):
-#     return a*x**alpha + c
+def func3(x, a, c):
+    return a*x**alpha + c
 
-fps = 45.5
+fps = 66.636
 pixel_per_micron = 10.72
-file_dir = '/Volumes/AndersonLab/Hausen W/Data/2022_06_29_1um_nyo_beads_water/lipid/40x/for tracking/water_1_MMStack_Pos0.ome.tif'
+file_dir = 'Y://Hausen W//Data//2022_06_27_1um_nyo_beads_control//40x///water_1ul_nyo_29ul_water_control//water_control_4//water_control_4_MMStack_Pos0.ome.tif'
 work_dir = '/'.join(file_dir.split('/')[:-1]) + '/'
 print(work_dir)
 frames = pims.open(file_dir)
@@ -115,8 +117,7 @@ tp.mass_size(t1.groupby('particle').mean()); # convenience function -- just plot
 
 
 t2 = t1[((t1['size'] < 20) &
-         (t1['ecc'] < .3))]
-
+         (t1['ecc'] < 1))]
 
 
 plt.figure()
@@ -180,17 +181,13 @@ for i in range(39):
     popt, pcov = curve_fit(func, x, y)
 
     # plt.plot(em.index, em.values, 'o', label='Exp data', markersize=8)
-    # x2=em.index
-    # #plt.plot(x2, m*x2 + c, 'r', label='Fitted line')
+    plt.plot(em.index, em.values, 'o', markersize=8, alpha=0.2)
+    x2=em.index
+    #plt.plot(x2, m*x2 + c, 'r', label='Fitted line')
+    plt.loglog(x2, popt[0]*x2**popt[1] + popt[2], 'k', alpha=0.2)
     # plt.loglog(x2, popt[0]*x2**popt[1] + popt[2], 'k', label='Fitted line ($K t^α +c$)')
-    # #ax = em.plot(style='or', label='Trackpy')
+    #ax = em.plot(style='or', label='Trackpy')
 
-    # plt.ylabel(r'$\langle \Delta r^2 \rangle$ [$\mu$m$^2$]',fontsize=14)
-    # plt.xlabel('lag time $(s)$', fontsize=14);
-    # plt.xticks(fontsize=14)
-    # plt.yticks(fontsize=14)
-    # plt.legend()
-    # plt.show()
 
     # print(r'D_eff = {0:.5f} μm²/s^α'.format(popt[0]/4), end='\r')
     # print(r'α = {0:.5f} '.format(popt[1]), end='\r')
@@ -198,6 +195,12 @@ for i in range(39):
     lod.append(popt[0]/4)
     loa.append(popt[1])
 
+plt.ylabel(r'$\langle \Delta r^2 \rangle$ [$\mu$m$^2$]',fontsize=14)
+plt.xlabel('lag time $(s)$', fontsize=14);
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.legend()
+plt.show()
 print(lod)
 print(loa)
 
